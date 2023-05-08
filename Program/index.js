@@ -11,7 +11,9 @@ app.use(express.json())
 let tai
 app.use('/api/v1', apiRouter)
 
+
 console.log('hello2');
+
 
 try {
     connection.authenticate()
