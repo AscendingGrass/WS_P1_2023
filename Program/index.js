@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use('/api/v1', apiRouter)
 
-
+console.log('hello');
 
 try {
     connection.authenticate()
