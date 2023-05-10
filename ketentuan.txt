@@ -1,0 +1,61 @@
+Proyek (Total 100 poin):
+Buat kelompok beranggotakan 3-4 orang, kemudian buatlah sebuah web service dengan syarat berikut:
+1. Web service memiliki:
+    1.  [10 poin] Endpoint dengan get post put delete (masing2 minimal 1) 
+    2.  [10 poin] Http code dan error handling
+    3.  [10 poin] 3rd party API minimal 1 (harus yang punya AUTH entah API Key / OAuth), kembar antar kelompok maksimal 2 kelompok (misalnya dari rapidapi.com)
+    4.  [10 poin] API ada authentication dan authorization
+    5.  [10 poin] Payment model (pay per use, subscription, dll)
+    6.  [10 poin] API documentation menggunakan postman dan automated testing (bebas pakai postman atau library javascript lain)
+    7.  [10 poin] upload file menggunakan multer
+    8. [10 poin] Input validation menggunakan Joi
+    9. [10 poin] Migration dan seeder untuk struktur database dan data awal.
+ 10. [10 poin] Di-hosting
+    11. Tidak wajib menggunakan tampilan. Nanti diperiksa menggunakan postman saja (tampilan tidak menambah nilai)
+2. Masing-masing anggota kelompok membuat minimal 5 buah endpoint.
+3. Service yang dibuat jangan sama dengan 3rd party api yang digunakan. Misalnya membuat service ramalan cuaca dan 3rd party api yang digunakan adalah openweathermap (yang mana openweathermap adalah service ramalan cuaca juga). Kalau seperti ini kan service yang dibuat tidak melakukan apa2 (ramalan cuacanya cuma diambil dari openweathermap).
+4. Service yang mau dibuat bisa diintegrasikan dengan program lain. Sertakan di proposal minimal 2 program yang bisa memanfaatkan web service anda. 
+
+Contoh proposal:
+===========================================
+
+Web service "Cari Tumpangan"
+
+Deskripsi program:
+Webservice ini menyediakan jasa membantu mencarikan orang yang bersedia memberi tumpangan atau mengantarkan titipan barang apabila kebetulan sedang menuju tempat yang sama atau melewati tempat tujuan dalam perjalanan.
+Terdapat 2 jenis account: developer dan pemberi tumpangan.
+Developer adalah orang2 yang ingin mengintegrasikan web service ini ke program mereka. Developer mendaftar untuk memperoleh API key. Apabila program dari deveoper ingin mengakses endpoint yang kita sediakan, maka mereka perlu menyertakan API key mereka. Developer harus membayar 5000 Rupiah setiap kali meminta tumpangan.
+Pemberi tumpangan adalah orang-orang yang bersedia memberi tumpangan baik untuk orang lain atau mengantarkan barang apabila melweati tempat tujuan barang. Pemberi tumpangan mendaftarkan username, password, nomor HP dan mengupload foto KTP untuk mengkonfirmasi identitas. Setiap kali pemberi tumpangan hendak pergi, mereka akan menginputkan tempat berangkat dan tempat tujuan mereka. Service akan memberikan rute yang harus ditempuh (menggunakan bantuan google map API) beserta daftar orang atau barang yang hendak menumpang. Pemberi tumpangan kemudian dapat menerima permintaan-permintaan yang tersedia. Setelah pemberi tumpangan selesai mengantarkan barang atau mengantarkan tumpangan pemberi tumpangan dapat memberi tahu service bahwa permintaan telah dipenuhi.
+
+Contoh program yang bisa memanfaatkan service ini:
+1. Online shop bisa menggunakan service ini sebagai alternatif pengantaran paket apabila toko dan pembeli ada di satu kota yang sama.
+2. Website2 yang mempromosikan suatu tempat (misalnya website kampus atau hotel) biasanya menyediakan peta untuk menunjukkan lokasi mereka. Website ini bisa menambahkan service cari tumpangan untuk membantu mencarikan tumpangan bagi orang-orang yang mau menuju tempat yang dipromosikan website.
+Daftar fitur:
+    Developer:
+        - Register
+            Input: username, password
+            Hasil: dapat API key baru
+        - Login
+            Input: username, password
+            Hasil: bisa melihat API key
+        - Posting request mengantar barang
+            Input: tempat asal dan tujuan
+        - Bayar tagihan
+    Pemberi tumpangan:
+        - Register
+            Input: username, password
+        - Posting rute
+            Input: tempat asal dan tujuan
+        - Lihat request
+            Hasil: daftar request numpang / titip barang yang melewati rute yang sekarang sedang ditempuh
+        - Terima request
+            Input: id request yang hendak diterima
+        - Complete request
+            Input: id request yang telah diselesaikan
+        - Complete trip
+            Hasil: menyelesaikan rute yang terakhir diposting. Efeknya bisa posting rute baru dan mendapat daftar request yang baru
+
+Syarat proyek:
+    3rd party API: Google maps API
+    payment model: developer bayar 5000 setiap kali posting request antar
+    upload file: file foto KTP untuk pendaftaran pemberi tumpangan
