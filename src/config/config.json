@@ -7,8 +7,7 @@
         "dialect" : "mysql",
         "dialectOptions": {
             "dateStrings": true,
-            "typeCast": true,
-            "logging": false
+            "typeCast": true
         },
         "timezone": "+07:00",
         "port" : "3306"
