@@ -8,8 +8,7 @@ const {
     username,
     dialectOptions,
     timezone
-} = require('../config/db_words.json')
-
+} = require('../config/db_words.json').test
 module.exports = new Sequelize(database, username, password,{
     host,
     dialect,

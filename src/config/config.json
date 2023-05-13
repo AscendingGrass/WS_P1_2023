@@ -1,0 +1,45 @@
+{
+    "test":{
+        "database" : "db_words_test",
+        "username" : "root",
+        "password" : "",
+        "host" : "localhost",
+        "dialect" : "mysql",
+        "dialectOptions": {
+            "dateStrings": true,
+            "typeCast": true,
+            "logging": false
+        },
+        "timezone": "+07:00",
+        "port" : "3306"
+    },
+
+    "development":{
+        "database" : "db_words_dev",
+        "username" : "root",
+        "password" : "",
+        "host" : "localhost",
+        "dialect" : "mysql",
+        "dialectOptions": {
+            "dateStrings": true,
+            "typeCast": true
+        },
+        "timezone": "+07:00",
+        "port" : "3306"
+    },
+
+    "production":{
+        "database" : "db_words",
+        "username" : "root",
+        "password" : "",
+        "host" : "localhost",
+        "dialect" : "mysql",
+        "dialectOptions": {
+            "dateStrings": true,
+            "typeCast": true,
+            "ssl": true
+        },
+        "timezone": "+07:00",
+        "port" : "3306"
+    }
+}

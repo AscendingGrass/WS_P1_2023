@@ -1,0 +1,45 @@
+01- add user
+
+02- get definition (auth api key / jwt)
+  https://dictionaryapi.dev/
+  https://rapidapi.com/openai-api-openai-api-default/api/openai80
+
+03- get random word(s) (auth api key / jwt)
+  https://random-word-api.vercel.app/
+
+04- login user (return jwt)
+
+05- subscribe monthly (auth jwt)
+
+06- add explanation kalo udah subsckreb (auth jwt)
+
+07- update user explanation (auth jwt)
+
+08- delete user explanation (auth jwt)
+
+09- delete user (auth jwt)
+
+10- update user username (auth jwt)
+
+11- update user password (auth jwt)
+
+12- like atau dislike explanation user (semua user bisa walaupun blom subcreb) (auth jwt)
+
+13- get users (buat admin) (auth jwt)
+
+14- get user data (auth jwt user itu sendiri atau admin)(return api key dll)
+
+15- get most searched words (auth api key / jwt)
+
+16- regenerate api key (auth jwt user)
+
+17- get user explanations (auth jwt user)
+
+18- get transactions (auth jwt admin)
+
+19- validate payment (auth jwt user)
+
+20- search word (auth api key / jwt) (subskreb only)
+    https://rapidapi.com/openai-api-openai-api-default/api/openai80
+      - "content": "list real dictionary words are similar to or contains or sounds similar to 'bob' in array format"
+
