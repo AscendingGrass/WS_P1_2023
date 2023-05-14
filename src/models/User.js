@@ -30,6 +30,11 @@ User.init(
       unique: true,
       allowNull: false
     },
+    profile_path:{
+      type: Sequelize.STRING,
+      defaultValue: null,
+      allowNull: true
+    },
     active: {
       type: DataTypes.BOOLEAN,
       default: true,

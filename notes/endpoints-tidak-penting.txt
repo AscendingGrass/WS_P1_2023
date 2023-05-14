@@ -19,7 +19,7 @@
 
 09- delete user (auth jwt)
 
-10- update user username (auth jwt)
+10- update user profile picture (auth jwt)
 
 11- update user password (auth jwt)
 
@@ -33,7 +33,7 @@
 
 16- regenerate api key (auth jwt user)
 
-17- get user explanations (auth jwt user)
+17- get user explanations (auth jwt atau api key)
 
 18- get transactions (auth jwt admin)
 
