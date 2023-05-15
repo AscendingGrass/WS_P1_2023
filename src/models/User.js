@@ -1,51 +1,49 @@
-'use strict';
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../databases/db_words');
+"use strict";
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../databases/db_words");
 
-class User extends Model {
-  
-}
+class User extends Model {}
 User.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
-    api_key:{
+    api_key: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
-    profile_path:{
-      type: Sequelize.STRING,
+    profile_path: {
+      type: DataTypes.STRING,
       defaultValue: null,
-      allowNull: true
+      allowNull: true,
     },
     active: {
       type: DataTypes.BOOLEAN,
       default: true,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    timestamps:true,
-    modelName:"User",
-    tableName:"users"
+    timestamps: true,
+    modelName: "User",
+    tableName: "users",
   }
 );
 
