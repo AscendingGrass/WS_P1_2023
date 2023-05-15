@@ -31,7 +31,7 @@ User.init(
       allowNull: false
     },
     profile_path:{
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       defaultValue: null,
       allowNull: true
     },
