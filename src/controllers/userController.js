@@ -12,6 +12,8 @@ const {
   Word,
 } = require("../models");
 const { getAPI } = require("../utilities/paketPraktikum");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 // GET '/users?'
 const getUsers = async (req, res) => {};
@@ -60,11 +62,15 @@ const addUser = async (req, res) => {
     return res.status(400).json({ message: "Email already in use" });
   }
 
-  var api = getAPI();
+  var api = await crypto.randomUUID();
+  let hashedPassword;
+  await bcrypt.hash(password, 10).then((hash) => {
+    hashedPassword = hash;
+  });
 
   const addUser = await User.create({
     name: name,
-    password: password,
+    password: hashedPassword,
     email: email,
     api_key: api,
     profile_path: null,
@@ -99,7 +105,7 @@ const loginUser = async (req, res) => {
   }
 
   let { email, password } = req.body;
-  const findUser = await User.count({
+  const findUser = await User.findAll({
     where: {
       email: email,
     },
@@ -110,21 +116,16 @@ const loginUser = async (req, res) => {
       .json({ message: "The user has not been registered" });
   }
 
-  const checkPass = await User.findAll({
-    where: {
-      email: email,
-      password: password,
-    },
-  });
+  const checkPassword = await bcrypt.compare(password, findUser[0].password);
 
-  if (checkPass.length == 0) {
+  if (!checkPassword) {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
   let token = jwt.sign(
     {
       email: email,
-      api_key: checkPass[0].api_key,
+      api_key: findUser[0].api_key,
     },
     process.env.SECRET_KEY,
     { expiresIn: "3600s" }

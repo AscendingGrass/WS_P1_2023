@@ -64,13 +64,6 @@ const ABCto012 = (char) => {
       return -1;
   }
 };
-const getAPI = () => {
-  var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var result = "";
-  for (var i = 30; i > 0; --i)
-    result += chars[Math.floor(Math.random() * chars.length)];
-  return result;
-};
 
 module.exports = {
   dateIsValidDMY,
@@ -81,7 +74,6 @@ module.exports = {
   dmyStringToDate,
   shuffle,
   ABCto012,
-  getAPI,
 };
 
 // async function generateMhsId(){
