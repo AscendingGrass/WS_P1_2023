@@ -15,7 +15,7 @@ router.get('/test', testController.test)
 // get definition
 // keywordnya buat mau nyari apa
 // auth jwt / api key
-router.get('/words/:keyword', wordController.getDefinition)
+router.post('/words/:keyword', wordController.getDefinition)
 
 // get random words
 // di query bisa milih randomnya mau berapa

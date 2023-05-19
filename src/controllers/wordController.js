@@ -21,14 +21,15 @@ body:{
 */
 const getDefinition = async (req, res) => {
     const {keyword} = req.params;
-    const apiKey = req.headers["Authorization"] || "";
-    const token  = req.headers["X-Auth-Token"]  || "";
+    const apiKey = req.headers["authorization"] || "";
+    const token  = req.headers["x-auth-token"]  || "";
 
     let flag = false;
     let user = null;
 
     // check if apiKey or JWT is valid
     if(apiKey){
+        
         if(apiKey.startsWith("Bearer ")){
             const key = apiKey.substring(7);
             user = await User.findOne({
@@ -166,7 +167,18 @@ const getDefinition = async (req, res) => {
 
 // GET '/words/random?'
 const getRandom = async (req, res) => {
+    const words = Number(req.query.words) || 10;
 
+    const results = (await axios.get(`https://random-word-api.vercel.app/api?words=${words}`)).data
+    await Promise.all(results.map(async x => await Word.findOrCreate({
+        where : {
+            word: String(x).toLowerCase()
+        }
+    })))
+    res.status(200).json({
+        count: results.length,
+        words: results
+    })
 }
 
 // GET '/words?'
