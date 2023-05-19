@@ -3,6 +3,7 @@ const Joi = require("joi").extend(require("@joi/date"));
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const connection = require("../databases/db_words");
+const secret = process.env.SECRET_KEY || "";
 const {
   User,
   Explanation_Like,
@@ -127,7 +128,7 @@ const loginUser = async (req, res) => {
       email: email,
       api_key: findUser[0].api_key,
     },
-    process.env.SECRET_KEY,
+    secret,
     { expiresIn: "3600s" }
   );
   return res.status(200).json({

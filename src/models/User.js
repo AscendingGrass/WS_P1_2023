@@ -33,6 +33,11 @@ User.init(
       defaultValue: null,
       allowNull: true,
     },
+    role: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      defaultValue: 0, // 0: user, 1: admin
+    },
     active: {
       type: DataTypes.BOOLEAN,
       default: true,

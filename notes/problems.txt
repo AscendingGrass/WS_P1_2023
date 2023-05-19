@@ -1,0 +1,5 @@
+to be fixed:
+
+- generate API key-nya pake crypto randomUUID
+- password jangan dimasukkin ke JWT sama pake id aja daripada email
+- role user masukkin ke jwt sama status subscriptionnya juga

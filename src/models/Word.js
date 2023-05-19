@@ -8,19 +8,20 @@ class Word extends Model {
 Word.init(
   {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      word: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      search_count: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-        allowNull: false
-      }
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    word: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    search_count: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false
+    }
   },
   {
     sequelize,
