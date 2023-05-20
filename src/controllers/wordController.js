@@ -229,7 +229,50 @@ const getWords = async (req, res) => {
 
 // GET '/words/:keyword/similar'
 const getSimilarWords = async (req, res) => {
+    const words = Number(req.query.words) || 10;
+    const apiKey = req.headers["authorization"] || "";
+    const token  = req.headers["x-auth-token"]  || "";
 
+    let flag = false;
+    let user = null;
+
+    // check if apiKey or JWT is valid
+    if(apiKey){
+        
+        if(apiKey.startsWith("Bearer ")){
+            const key = apiKey.substring(7);
+            user = await User.findOne({
+                where : {
+                    api_key : key
+                }
+            });
+
+            if(user){
+                flag = true;
+            }
+        }
+    }
+    else if(token){
+        try{
+            const data = jwt.verify(token, secret);
+            user = await User.findOne({
+                where : {
+                    email : data.email
+                }
+            })
+
+            if(user){
+                flag = true;
+            }
+        }
+        catch(err){}
+    }
+
+    if(!flag){
+        return res.status(403).json({message : "unauthorized"});
+    }
+
+    
 }
 
 module.exports = {
