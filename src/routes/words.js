@@ -33,7 +33,7 @@ router.post('/subscription/validate', transactionController.validateSubscription
 
 // buat search word berdasarkan kemiripan
 // butuh jwt atau api key user yang udah subskreb
-router.post('/words/:keyword/similar', wordController.getSimilarWords)
+router.get('/words/:keyword/similar', wordController.getSimilarWords)
 
 
 // VIERY ====================================================================================

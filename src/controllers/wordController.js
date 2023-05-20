@@ -229,7 +229,7 @@ const getWords = async (req, res) => {
 
 // GET '/words/:keyword/similar'
 const getSimilarWords = async (req, res) => {
-    const words = Number(req.query.words) || 10;
+    const {keyword} = req.params;
     const apiKey = req.headers["authorization"] || "";
     const token  = req.headers["x-auth-token"]  || "";
 
@@ -272,8 +272,61 @@ const getSimilarWords = async (req, res) => {
         return res.status(403).json({message : "unauthorized"});
     }
 
+    let subscription = false;
+
+    if(user.role == 1){
+        subscription = true;
+    }
+    else {
+        const latestSubscription = await Subscription.findOne({
+            where:{
+                user_id:user.id
+            },
+            order:[
+                ["expiration_date","DESC"]
+            ]
+        })
+
+
+        if(latestSubscription && new Date(latestSubscription.expiration_date) > new Date()){
+            subscription = true;
+        }
+    }
+
+    if(!subscription){
+        return res.status(403).json({message : "you are not subscribed"});
+    }
+
+    const result = await axios.post(String(process.env.RAPIDAPI_URL), {
+        model: 'gpt-3.5-turbo',
+        messages: [
+            {
+                role: 'system',
+                content: `list real dictionary words that are similar to or contains or sounds similar to '${keyword}' in array format`
+            }
+        ]
+    },{
+        headers:{
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': String(process.env.X_RAPIDAPI_KEY),
+            'X-RapidAPI-Host': String(process.env.X_RAPIDAPI_HOST)
+        }
+    })
+
+    const similarWords = result.substring(result.indexOf('[')+1, result.indexOf(']'))
+        .replace(/\[/g, "")
+        .replace(/\]/g, "")
+        .replace(/\"/g, "")
+        .replace(/\'/g, "")
+        .split(',')
+        .map(x => x.trim());
     
+    return res.status(200).json({
+        count:similarWords.length,
+        similarWords
+    });
 }
+
 
 module.exports = {
     getDefinition,
