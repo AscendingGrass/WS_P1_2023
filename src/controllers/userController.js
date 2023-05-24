@@ -12,7 +12,6 @@ const {
   User_Explanation,
   Word,
 } = require("../models");
-const { getAPI } = require("../utilities/paketPraktikum");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
@@ -75,6 +74,7 @@ const addUser = async (req, res) => {
     email: email,
     api_key: api,
     profile_path: null,
+    role: 0,
     active: 1,
     createdAt: null,
     updatedAt: null,
@@ -123,9 +123,17 @@ const loginUser = async (req, res) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
+  const checkSubs = await Transaction.findAll({
+    where: {
+      user_id: findUser[0].id,
+    },
+  });
+
   let token = jwt.sign(
     {
-      email: email,
+      id: findUser[0].id,
+      role: findUser[0].role,
+      subs_status: checkSubs[0].status,
       api_key: findUser[0].api_key,
     },
     secret,

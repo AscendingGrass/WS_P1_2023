@@ -1,198 +1,213 @@
-const { Op, Sequelize, NOW } = require('sequelize');
-const Joi = require('joi').extend(require('@joi/date'));
-const axios = require('axios');
-const jwt = require('jsonwebtoken');
-const connection = require('../databases/db_words');
+const { Op, Sequelize, NOW } = require("sequelize");
+const Joi = require("joi").extend(require("@joi/date"));
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
+const connection = require("../databases/db_words");
 const secret = process.env.SECRET_KEY || "";
 const {
-    User,
-    Explanation_Like,
-    Subscription,
-    Transaction,
-    User_Explanation,
-    Word
-} = require('../models');
+  User,
+  Explanation_Like,
+  Subscription,
+  Transaction,
+  User_Explanation,
+  Word,
+} = require("../models");
 
 // POST '/subscription/pay'
 const addTransaction = async (req, res) => {
-    const token  = req.headers["x-auth-token"]  || "";
-    const replace = req.body.replace === "true";
+  const token = req.headers["x-auth-token"] || "";
+  const replace = req.body.replace === "true";
 
-    let flag = false;
-    let user = null;
+  let flag = false;
+  let user = null;
 
-    // check if JWT is valid
-    if(token){
-        try{
-            const data = jwt.verify(token, secret);
-            user = await User.findOne({
-                where : {
-                    email : data.email
-                }
-            })
+  // check if JWT is valid
+  if (token) {
+    try {
+      const data = jwt.verify(token, secret);
+      user = await User.findOne({
+        where: {
+          email: data.email,
+        },
+      });
 
-            if(user){
-                flag = true;
-            }
-        }
-        catch(err){}
-    }
+      if (user) {
+        flag = true;
+      }
+    } catch (err) {}
+  }
 
-    if(!flag){
-        return res.status(403).json({message : "unauthorized"});
-    }
+  if (!flag) {
+    return res.status(403).json({ message: "unauthorized" });
+  }
 
-    if(!replace){
-        const latestSubscription = await Subscription.findOne({
-            where:{
-                user_id: user.id
-            },
-            order:[
-                ["expiration_date", "DESC"]
-            ]
-        })
-    
-        if(latestSubscription != null){
-            if(new Date(latestSubscription.expiration_date) > new Date()){
-                return res.status(403).json({message : "you have an active subscription, are you sure you want to replace it? set replace to 'true' in the body if so"});
-            }
-        }
-
-    }
-    
-    const gross_amount = 10_000;
-    const order_id = Transaction.generateOrderId(user)
-    const midtransPromise = axios.post(String(process.env.MIDTRANS_SNAP_URL),{
-        transaction_details: {
-            order_id,
-            gross_amount
-        }, 
-        credit_card: {
-            secure: true
-        }
-    },{
-        auth: {
-            username: String(process.env.SERVER_KEY),
-            password: ""
-        }
-    })
-
-    await Transaction.create({
+  if (!replace) {
+    const latestSubscription = await Subscription.findOne({
+      where: {
         user_id: user.id,
-        order_id,
-        paid_amount: gross_amount
+      },
+      order: [["expiration_date", "DESC"]],
     });
 
-    return res.status(200).json((await midtransPromise).data);
-}
+    if (latestSubscription != null) {
+      if (new Date(latestSubscription.expiration_date) > new Date()) {
+        return res.status(403).json({
+          message:
+            "you have an active subscription, are you sure you want to replace it? set replace to 'true' in the body if so",
+        });
+      }
+    }
+  }
+
+  const gross_amount = 10_000;
+  const order_id = Transaction.generateOrderId(user);
+  const midtransPromise = axios.post(
+    String(process.env.MIDTRANS_SNAP_URL),
+    {
+      transaction_details: {
+        order_id,
+        gross_amount,
+      },
+      credit_card: {
+        secure: true,
+      },
+    },
+    {
+      auth: {
+        username: String(process.env.SERVER_KEY),
+        password: "",
+      },
+    }
+  );
+
+  await Transaction.create({
+    user_id: user.id,
+    order_id,
+    paid_amount: gross_amount,
+  });
+
+  return res.status(200).json((await midtransPromise).data);
+};
 
 // POST '/subscription/validate'
 const validateSubscriptionTransaction = async (req, res) => {
-    const token  = req.headers["x-auth-token"]  || "";
+  const token = req.headers["x-auth-token"] || "";
 
-    let flag = false;
-    let user = null;
+  let flag = false;
+  let user = null;
 
-    // check if JWT is valid
-    if(token){
-        try{
-            const data = jwt.verify(token, secret);
-            user = await User.findOne({
-                where : {
-                    email : data.email
-                }
-            })
+  // check if JWT is valid
+  if (token) {
+    try {
+      const data = jwt.verify(token, secret);
+      user = await User.findOne({
+        where: {
+          email: data.email,
+        },
+      });
 
-            if(user){
-                flag = true;
-            }
-        }
-        catch(err){}
-    }
+      if (user) {
+        flag = true;
+      }
+    } catch (err) {}
+  }
 
-    if(!flag){
-        return res.status(403).json({message : "unauthorized"});
-    }
+  if (!flag) {
+    return res.status(403).json({ message: "unauthorized" });
+  }
 
-    const unverifiedTransactions = await Transaction.findAll({
-        where:{
-            user_id:user.id,
-            status:{
-                [Op.or]:[null, "pending"]
-            }
-        }
-    })
+  const unverifiedTransactions = await Transaction.findAll({
+    where: {
+      user_id: user.id,
+      status: {
+        [Op.or]: [null, "pending"],
+      },
+    },
+  });
 
-    let expiration_date  = new Date();
-    expiration_date = new Date(expiration_date.setMonth(expiration_date.getMonth() + 1));
+  let expiration_date = new Date();
+  expiration_date = new Date(
+    expiration_date.setMonth(expiration_date.getMonth() + 1)
+  );
 
-    let updatedTransactions = [];
+  let updatedTransactions = [];
 
-    await Promise.all(unverifiedTransactions.map(async x => {
-        const url = process.env.MIDTRANS_V2_URL + `/${x.order_id}/status`;
-        const status = (await axios.get(url,{
-            auth: {
-                username: String(process.env.SERVER_KEY),
-                password: ""
-            }
-        })).data
-
-        if(status.status_code == "404"){
-            return;
-        }
-
-        const originalStatus = x.status;
-        const updatePromise =  x.update({
-            status: status.transaction_status
+  await Promise.all(
+    unverifiedTransactions.map(async (x) => {
+      const url = process.env.MIDTRANS_V2_URL + `/${x.order_id}/status`;
+      const status = (
+        await axios.get(url, {
+          auth: {
+            username: String(process.env.SERVER_KEY),
+            password: "",
+          },
         })
+      ).data;
 
-        if(originalStatus != x.status || originalStatus != "pending")updatedTransactions.push(x);
-        if(status.transaction_status === "capture" || status.transaction_status === "settlement"){
-            await Subscription.create({
-                user_id: user.id,
-                transaction_id: x.id,
-                expiration_date
-            });
-        }
+      if (status.status_code == "404") {
+        return;
+      }
 
-        await updatePromise;
-    }));
+      const originalStatus = x.status;
+      const updatePromise = x.update({
+        status: status.transaction_status,
+      });
 
-    const accepted = unverifiedTransactions.filter(x => x.status === "capture" || x.status === "settlement");
-    updatedTransactions = updatedTransactions.map(x => {return {
-        dateTime: x.createdAt, 
-        status:x.status
-    }})
-
-    if(accepted.length == 0){
-        return res.status(200).json({
-            message : "No verified payments found", 
-            updatedTransactions
+      if (originalStatus != x.status || originalStatus != "pending")
+        updatedTransactions.push(x);
+      if (
+        status.transaction_status === "capture" ||
+        status.transaction_status === "settlement"
+      ) {
+        await Subscription.create({
+          user_id: user.id,
+          transaction_id: x.id,
+          expiration_date,
         });
-    }
+      }
 
-    if(accepted.length == 1){
-        return res.status(200).json({
-            message : "Payment verified, subscription is now active", 
-            expiration_date,
-            updatedTransactions
-        });
-    }
+      await updatePromise;
+    })
+  );
 
+  const accepted = unverifiedTransactions.filter(
+    (x) => x.status === "capture" || x.status === "settlement"
+  );
+  updatedTransactions = updatedTransactions.map((x) => {
+    return {
+      dateTime: x.createdAt,
+      status: x.status,
+    };
+  });
+
+  if (accepted.length == 0) {
     return res.status(200).json({
-        message : "multiple payments verified, subscription is now active, are you sure this is not a mistake?", 
-        expiration_date,
-        updatedTransactions
+      message: "No verified payments found",
+      updatedTransactions,
     });
-}
+  }
+
+  if (accepted.length == 1) {
+    return res.status(200).json({
+      message: "Payment verified, subscription is now active",
+      expiration_date,
+      updatedTransactions,
+    });
+  }
+
+  return res.status(200).json({
+    message:
+      "multiple payments verified, subscription is now active, are you sure this is not a mistake?",
+    expiration_date,
+    updatedTransactions,
+  });
+};
 
 // GET '/transactions?'
-const getTransactions = async (req, res) => {
-
-}
+const getTransactions = async (req, res) => {};
 
 module.exports = {
-    addTransaction,
-    validateSubscriptionTransaction,
-    getTransactions,
-}
+  addTransaction,
+  validateSubscriptionTransaction,
+  getTransactions,
+};
