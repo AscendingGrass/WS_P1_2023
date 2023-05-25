@@ -27,7 +27,7 @@ const addTransaction = async (req, res) => {
       const data = jwt.verify(token, secret);
       user = await User.findOne({
         where: {
-          email: data.email,
+          id: data.id,
         },
       });
 
@@ -102,7 +102,7 @@ const validateSubscriptionTransaction = async (req, res) => {
       const data = jwt.verify(token, secret);
       user = await User.findOne({
         where: {
-          email: data.email,
+          id: data.id,
         },
       });
 

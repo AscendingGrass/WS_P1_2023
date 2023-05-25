@@ -128,12 +128,18 @@ const loginUser = async (req, res) => {
       user_id: findUser[0].id,
     },
   });
+  var subs_status;
+  if (!checkSubs[0]) {
+    subs_status = null;
+  } else {
+    subs_status = checkSubs[0].status;
+  }
 
   let token = jwt.sign(
     {
       id: findUser[0].id,
       role: findUser[0].role,
-      subs_status: checkSubs[0].status,
+      subs_status: subs_status,
       api_key: findUser[0].api_key,
     },
     secret,

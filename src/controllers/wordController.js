@@ -46,7 +46,7 @@ const getDefinition = async (req, res) => {
       const data = jwt.verify(token, secret);
       user = await User.findOne({
         where: {
-          email: data.email,
+          id: data.id,
         },
       });
 
@@ -199,7 +199,7 @@ const getRandom = async (req, res) => {
       const data = jwt.verify(token, secret);
       user = await User.findOne({
         where: {
-          email: data.email,
+          id: data.id,
         },
       });
 
@@ -263,7 +263,7 @@ const getSimilarWords = async (req, res) => {
       const data = jwt.verify(token, secret);
       user = await User.findOne({
         where: {
-          email: data.email,
+          id: data.id,
         },
       });
 
