@@ -233,7 +233,74 @@ const getRandom = async (req, res) => {
 };
 
 // GET '/words?'
-const getWords = async (req, res) => {};
+const getWords = async (req, res) => {
+  const { limit } = req.query;
+    const apiKey = req.headers["authorization"] || "";
+    const token = req.headers["x-auth-token"] || "";
+    let flag = false;
+    if (apiKey) {
+
+        if (apiKey.startsWith("Bearer ")) {
+            const key = apiKey.substring(7);
+            user = await User.findOne({
+                where: {
+                    api_key: key
+                }
+            });
+
+            if (user) {
+                flag = true;
+            }
+        }
+    }
+    else if (token) {
+        try {
+            const data = jwt.verify(token, secret);
+            user = await User.findOne({
+                where: {
+                    id: data.id
+                }
+            })
+
+            if (user) {
+                flag = true;
+            }
+        }
+        catch (err) { }
+    }
+
+    if (!flag) {
+        return res.status(403).json({ message: "unauthorized" });
+    }
+    if (limit) {
+        const most_search = await Word.findAll({
+            order: [['search_count', 'DESC']],
+            limit: parseInt(limit)
+        });
+        var output = [];
+        for (const datae of most_search) {
+            var datapush = {
+                word : datae.word
+            }
+            output.push(datapush)
+        }
+        return res.status(200).send(output)
+    } else {
+        //defaultnya 5
+        const most_search = await Word.findAll({
+            order: [['search_count', 'DESC']],
+            limit: 5
+        });
+        var output = [];
+        for (const datae of most_search) {
+            var datapush = {
+                word : datae.word
+            }
+            output.push(datapush)
+        }
+        return res.status(200).send(output)
+    }
+};
 
 // GET '/words/:keyword/similar'
 const getSimilarWords = async (req, res) => {

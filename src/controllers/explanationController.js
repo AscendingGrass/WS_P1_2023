@@ -244,7 +244,71 @@ const deleteExplanation = async (req, res) => {
 };
 
 // PUT '/explanations/:id/likes'
-const updateExplanationLikes = async (req, res) => {};
+const updateExplanationLikes = async (req, res) => {
+  const { id } = req.params
+    const { status } = req.body
+    let flag = false;
+    let user;
+    let data;
+    const token = req.headers["x-auth-token"] || "";
+    if (token) {
+        try {
+            data = jwt.verify(token, secret);
+            user = await User.findAll({
+                where: {
+                    id: data.id
+                }
+            })
+
+            if (user) {
+                flag = true;
+            }
+        }
+        catch (err) { }
+    }
+    if (!flag) {
+        return res.status(403).json({ message: "unauthorized" });
+    }
+    if (!status) {
+        return res.status(403).json({ message: "Invalid status" });
+    }
+    if (status == "0" || status == "1" || status == "2") {
+        const cariexplanation = await User_Explanation.findAll({
+            where: {
+                id: id
+            }
+        })
+        if (cariexplanation.length == 0) {
+            return res.status(404).json({ message: "Explanation tidak ditemukan" })
+        } else {
+            const ceksudahadadidb = await Explanation_Like.findAll({
+                where: {
+                    user_id: user[0].id,
+                    explanation_id: id,
+                }
+            })
+            if (ceksudahadadidb.length == 0) {
+                await Explanation_Like.create({
+                    user_id: user[0].id,
+                    explanation_id: id,
+                    status: 0
+                })
+            }
+            const ambildatadidb = await Explanation_Like.update(
+                {
+                    status: status
+                }, {
+                where: {
+                    user_id: user[0].id,
+                    explanation_id: id,
+                }
+            })
+            return res.status(200).json({ message: "Berhasil merubah status" })
+        }
+    } else {
+        return res.status(400).json({ message: "Invalid status" })
+    }
+};
 
 // GET '/explanations?'
 const getExplanations = async (req, res) => {};
