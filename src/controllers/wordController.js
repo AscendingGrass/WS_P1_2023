@@ -147,6 +147,7 @@ const getDefinition = async (req, res) => {
     {
       headers: {
         "content-type": "application/json",
+        'Accept-Encoding': 'gzip,deflate,compress',
         "X-RapidAPI-Key": String(process.env.X_RAPIDAPI_KEY),
         "X-RapidAPI-Host": String(process.env.X_RAPIDAPI_HOST),
       },
@@ -154,9 +155,10 @@ const getDefinition = async (req, res) => {
   );
 
   try {
-    result.explanations = (await openaiPromise).data.choices[0].text;
+    const openaiResult = (await openaiPromise).data
+    result.explanations = openaiResult.choices[0].message.content;
   } catch (err) {
-    const requestStatus = err.response.status;
+    const requestStatus = err.response?.status;
     const responseStatus =
       {
         429: 502,
@@ -382,14 +384,17 @@ const getSimilarWords = async (req, res) => {
     {
       headers: {
         "content-type": "application/json",
+        'Accept-Encoding': 'gzip,deflate,compress',
         "X-RapidAPI-Key": String(process.env.X_RAPIDAPI_KEY),
         "X-RapidAPI-Host": String(process.env.X_RAPIDAPI_HOST),
       },
     }
   );
 
-  const similarWords = result
-    .substring(result.indexOf("[") + 1, result.indexOf("]"))
+  const resultString = result.data.choices[0].message.content
+
+  const similarWords = resultString
+    .substring(resultString.indexOf("[") + 1, resultString.indexOf("]"))
     .replace(/\[/g, "")
     .replace(/\]/g, "")
     .replace(/\"/g, "")
