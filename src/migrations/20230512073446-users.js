@@ -40,7 +40,7 @@ module.exports = {
       },
       active: {
         type: Sequelize.BOOLEAN,
-        default: true,
+        defaultValue: true,
         allowNull: false
       },
       createdAt: {
@@ -49,7 +49,8 @@ module.exports = {
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        defaultValue:null,
+        allowNull: true
       }
     });
   },

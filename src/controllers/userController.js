@@ -126,6 +126,8 @@ const addUser = async (req, res) => {
     hashedPassword = hash;
   });
 
+  
+
   const addUser = await User.create({
     name: name,
     password: hashedPassword,
