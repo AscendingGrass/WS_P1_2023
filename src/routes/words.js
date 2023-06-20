@@ -4,6 +4,7 @@ const userController = require("../controllers/userController");
 const wordController = require("../controllers/wordController");
 const explanationController = require("../controllers/explanationController");
 const transactionController = require("../controllers/transactionController");
+const authenticate = require('../middleware/middleware');
 
 router = new Router();
 
@@ -92,7 +93,7 @@ router.delete("/explanations", explanationController.deleteExplanation);
 
 // delete user
 // butuh jwt
-router.delete("/users", userController.deleteUser);
+router.delete("/users", [authenticate], userController.deleteUser);
 
 // get users
 // bisa ngambel semua user atau difilter terserah wkwk

@@ -204,7 +204,26 @@ const validateSubscriptionTransaction = async (req, res) => {
 };
 
 // GET '/transactions?'
-const getTransactions = async (req, res) => {};
+const getTransactions = async (req, res) => {
+  const {awal, akhir} = req.query;
+  let results = undefined;
+  if(awal && akhir){
+    const awalDate = new Date(awal);
+    const akhirDate = new Date(akhir);
+    if(!awalDate || !akhirDate){
+      return res.status(400).json({message: "Invalid date format"});
+    }
+    results = await Transaction.findAll({
+      where: {
+        createdAt: {[Op.gt] : awalDate},
+        createdAt: {[Op.lt] : akhirDate}
+      }
+    });
+  }else{
+    results = await Transaction.findAll();
+  }
+  return res.status(200).json({results});
+};
 
 module.exports = {
   addTransaction,

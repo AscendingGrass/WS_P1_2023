@@ -4,7 +4,7 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const connection = require("../databases/db_words");
-const secret = process.env.SECRET_KEY || "";
+const secret = process.env.SECRET_KEY;
 const {
   User,
   Explanation_Like,
@@ -15,7 +15,6 @@ const {
 } = require("../models");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     const folderName = `uploads/`;
@@ -74,10 +73,30 @@ const upload = multer({
   },
 });
 // GET '/users?'
-const getUsers = async (req, res) => {};
+const getUsers = async (req, res) => {
+  const user = req.body.users;
+  if(user.role !== 'admin'){
+    return res.status(403).json({message: "Forbidden access"});
+  }
+  const {name} = req.body.query;
+  const query = `%${name}%`
+  const users = await User.findAll({
+    where: {
+      name: {[Op.like]: query},
+      active: 1
+    }
+  });
+  return res.status(200).json({users});
+};
 
 // GET '/users/:id'
-const getUser = async (req, res) => {};
+const getUser = async (req, res) => {
+  const user = await req.body.user;
+  if(!user.role !== 'active'){
+    return res.status(400).json({message: "User is not active"});
+  }
+  return res.status(200).json({user});
+};
 
 // POST '/users'
 const addUser = async (req, res) => {
@@ -213,7 +232,13 @@ const loginUser = async (req, res) => {
 };
 
 // DELETE '/users'
-const deleteUser = async (req, res) => {};
+const deleteUser = async (req, res) => {
+  const user = req.body.user;
+  user.update({
+    active: 0
+  });
+  return res.status(200).json({message: `User with username ${user.username} was successfully deleted`});
+};
 
 // PUT '/users/profile'
 const updateUserProfilePicture = async (req, res) => {
@@ -354,7 +379,6 @@ const regenerateApiKey = async (req, res) => {
     new_api_key: api
   })
 };
-
 module.exports = {
   getUsers,
   getUser,
