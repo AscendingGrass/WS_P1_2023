@@ -63,7 +63,7 @@ router.get("/words?", wordController.getWords);
 
 // buat refresh api key user
 // butuh jwt user itu sendiri
-router.post("/users/:id/key", userController.regenerateApiKey);
+router.post("/users/key", userController.regenerateApiKey);
 
 // YOAN =====================================================================================
 

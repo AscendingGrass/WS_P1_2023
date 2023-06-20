@@ -2,6 +2,7 @@ const { Op, Sequelize, NOW } = require("sequelize");
 const Joi = require("joi").extend(require("@joi/date"));
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 const connection = require("../databases/db_words");
 const secret = process.env.SECRET_KEY || "";
 const {
@@ -238,7 +239,7 @@ const updateUserProfilePicture = async (req, res) => {
   } else {
     req.id = data.id;
     const uploadingFile = upload.single("pengguna_pp");
-    uploadingFile(req, res, (err) => {
+    uploadingFile(req, res, async (err) => {
       if (err) {
         console.log(err);
         return res
@@ -246,6 +247,13 @@ const updateUserProfilePicture = async (req, res) => {
           .send((err.message || err.code) + " pada field " + err.field);
       }
       const body = req.body;
+      await User.update({
+        profile_path: "uploads/"+req.id
+      }, {
+        where: {
+          id: data.id
+        }
+      })
       return res.status(200).json(body);
     });
   }
