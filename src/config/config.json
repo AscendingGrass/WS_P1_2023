@@ -40,16 +40,5 @@
         },
         "timezone": "+07:00",
         "port" : "3306"
-    },
-
-    "production_sqlite":{
-        "storage" : "storage/database.sqlite",
-        "dialect" : "sqlite",
-        "dialectOptions": {
-            "dateStrings": true,
-            "typeCast": true,
-            "ssl": true
-        },
-        "port" : "3306"
     }
 }
