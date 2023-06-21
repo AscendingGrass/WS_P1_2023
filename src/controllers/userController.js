@@ -74,7 +74,7 @@ const upload = multer({
 });
 // GET '/users?'
 const getUsers = async (req, res) => {
-  const user = req.body.users;
+  const user = req.body.user;
   if (user.role !== "admin") {
     return res.status(403).json({ message: "Forbidden access" });
   }
