@@ -316,29 +316,32 @@ const getExplanations = async (req, res) => {
   const {name, word} = req.query;
   let result = undefined;
   if(name && word){
-    const word_id = Word.findOne({where: {word: word}});
-    const user_id = User.findOne({where: {name}});
+    const word_id = await Word.findOne({where: {word: word}});
+    const user_id = await User.findOne({where: {name}});
     if(!word_id){
       return res.status(404).json({message: "Word not found"});
     }
     if(!user_id){
       return res.status(404).json({message: "User not found"});
     }
-    result = await User_Explanation.findAll({where: {user_id, word_id}});
+    result = await User_Explanation.findAll({where: {
+      user_id: user_id.id,
+      word_id: word_id.id
+    }});
   }else if(name){
-    const user_id = User.findOne({where: {name}});
+    const user_id = await User.findOne({where: {name}});
     if(!user_id){
       return res.status(404).json({message: "User not found"});
     }
-    result = await User_Explanation.findAll({where: {user_id, word_id}});
+    result = await User_Explanation.findAll({where: {user_id: user_id.id}});
   }else if(word){
-    const word_id = Word.findOne({where: {word: word}});
+    const word_id = await Word.findOne({where: {word: word}});
     if(!word_id){
       return res.status(404).json({message: "Word not found"});
     }
-    result = await User_Explanation.findAll({where: {user_id, word_id}});
+    result = await User_Explanation.findAll({where: {word_id: word_id.id}});
   }else{
-    result = await User_Explanation.findAll({where: {user_id: user.user_id}});
+    result = await User_Explanation.findAll({where: {user_id: user.id}});
   }
 
   return res.status(200).json({result});

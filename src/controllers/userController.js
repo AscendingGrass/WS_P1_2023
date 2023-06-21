@@ -75,27 +75,27 @@ const upload = multer({
 // GET '/users?'
 const getUsers = async (req, res) => {
   const user = req.body.user;
-  if (user.role !== "admin") {
-    return res.status(403).json({ message: "Forbidden access" });
+  if(Number(user.role) !== 1){
+    return res.status(403).json({message: "Forbidden access"});
   }
-  const { name } = req.body.query;
-  const query = `%${name}%`;
+  const {name} = req.query;
+  const query = `%${name}%`
   const users = await User.findAll({
     where: {
-      name: { [Op.like]: query },
-      active: 1,
-    },
+      name: {[Op.like]: query},
+      active: 1
+    }
   });
-  return res.status(200).json({ users });
+  return res.status(200).json({users});
 };
 
 // GET '/users/:id'
 const getUser = async (req, res) => {
   const user = await req.body.user;
-  if (!user.role !== "active") {
-    return res.status(400).json({ message: "User is not active" });
+  if(!Number(user.active)){
+    return res.status(400).json({message: "User is not active"});
   }
-  return res.status(200).json({ user });
+  return res.status(200).json({user});
 };
 
 // POST '/users'
@@ -144,6 +144,8 @@ const addUser = async (req, res) => {
   await bcrypt.hash(password, 10).then((hash) => {
     hashedPassword = hash;
   });
+
+  
 
   const addUser = await User.create({
     name: name,
@@ -233,13 +235,9 @@ const loginUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const user = req.body.user;
   user.update({
-    active: 0,
+    active: 0
   });
-  return res
-    .status(200)
-    .json({
-      message: `User with username ${user.username} was successfully deleted`,
-    });
+  return res.status(200).json({message: `User with username ${user.username} was successfully deleted`});
 };
 
 // PUT '/users/profile'
@@ -253,14 +251,15 @@ const updateUserProfilePicture = async (req, res) => {
       data = jwt.verify(token, secret);
       user = await User.findAll({
         where: {
-          id: data.id,
-        },
-      });
+          id: data.id
+        }
+      })
 
       if (user) {
         flag = true;
       }
-    } catch (err) {}
+    }
+    catch (err) { }
   }
   if (!flag) {
     return res.status(403).json({ message: "unauthorized" });
@@ -275,16 +274,13 @@ const updateUserProfilePicture = async (req, res) => {
           .send((err.message || err.code) + " pada field " + err.field);
       }
       const body = req.body;
-      await User.update(
-        {
-          profile_path: "uploads/" + req.id,
-        },
-        {
-          where: {
-            id: data.id,
-          },
+      await User.update({
+        profile_path: "uploads/"+req.id
+      }, {
+        where: {
+          id: data.id
         }
-      );
+      })
       return res.status(200).json(body);
     });
   }
@@ -292,7 +288,7 @@ const updateUserProfilePicture = async (req, res) => {
 
 // PUT '/users/password'
 const updateUserPassword = async (req, res) => {
-  const { password, new_password } = req.body;
+  const { password, new_password } = req.body
   let flag = false;
   let user;
   let data;
@@ -302,14 +298,15 @@ const updateUserPassword = async (req, res) => {
       data = jwt.verify(token, secret);
       user = await User.findAll({
         where: {
-          id: data.id,
-        },
-      });
+          id: data.id
+        }
+      })
 
       if (user) {
         flag = true;
       }
-    } catch (err) {}
+    }
+    catch (err) { }
   }
   if (!flag) {
     return res.status(403).json({ message: "unauthorized" });
@@ -321,7 +318,7 @@ const updateUserPassword = async (req, res) => {
     new_password: Joi.string().min(8).required().messages({
       "string.empty": "Invalid data field",
     }),
-  });
+  })
   try {
     await schema.validateAsync(req.body);
   } catch (error) {
@@ -336,17 +333,14 @@ const updateUserPassword = async (req, res) => {
   await bcrypt.hash(new_password, 10).then((hash) => {
     hashedPassword = hash;
   });
-  await User.update(
-    {
-      password: hashedPassword,
-    },
-    {
-      where: {
-        id: data.id,
-      },
+  await User.update({
+    password: hashedPassword
+  }, {
+    where: {
+      id: data.id
     }
-  );
-  return res.status(200).json({ message: "Successfully changed password" });
+  })
+  return res.status(200).json({ message: "Berhasil ubah password" })
 };
 
 // POST '/users/:id/key'
@@ -360,32 +354,30 @@ const regenerateApiKey = async (req, res) => {
       data = jwt.verify(token, secret);
       user = await User.findAll({
         where: {
-          id: data.id,
-        },
-      });
+          id: data.id
+        }
+      })
 
       if (user) {
         flag = true;
       }
-    } catch (err) {}
+    }
+    catch (err) { }
   }
   if (!flag) {
     return res.status(403).json({ message: "unauthorized" });
   }
   var api = await crypto.randomUUID();
-  await User.update(
-    {
-      api_key: api,
-    },
-    {
-      where: {
-        id: data.id,
-      },
+  await User.update({
+    api_key: api
+  }, {
+    where: {
+      id: data.id
     }
-  );
+  })
   return res.status(200).json({
-    new_api_key: api,
-  });
+    new_api_key: api
+  })
 };
 module.exports = {
   getUsers,

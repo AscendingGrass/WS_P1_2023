@@ -98,19 +98,19 @@ router.delete("/users", [authenticate], userController.deleteUser);
 // get users
 // bisa ngambel semua user atau difilter terserah wkwk
 // butuh jwt & cuman admin doang yang bisa
-router.get("/users?", userController.getUsers);
+router.get("/users?", [authenticate], userController.getUsers);
 
 // get user
 // bisa ngambel data user
 // butuh jwt user itu sendiri atau admin
-router.get("/users/:id", userController.getUser);
+router.get("/users/:id", [authenticate], userController.getUser);
 
 // buat ngambel explanationnya user, bisa filter by user atau filter by word
 // butuh jwt atau api key
-router.get("/explanations?", explanationController.getExplanations);
+router.get("/explanations?", [authenticate], explanationController.getExplanations);
 
 // buat ngambel transaction2, bisa filter batas tanggal awal dan batas tanggal akhir
 // butuh jwt ADMIN
-router.get("/transactions?", transactionController.getTransactions);
+router.get("/transactions?", [authenticate], transactionController.getTransactions);
 
 module.exports = router;
