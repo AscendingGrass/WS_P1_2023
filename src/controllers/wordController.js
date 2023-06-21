@@ -147,7 +147,7 @@ const getDefinition = async (req, res) => {
     {
       headers: {
         "content-type": "application/json",
-        'Accept-Encoding': 'gzip,deflate,compress',
+        "Accept-Encoding": "gzip,deflate,compress",
         "X-RapidAPI-Key": String(process.env.X_RAPIDAPI_KEY),
         "X-RapidAPI-Host": String(process.env.X_RAPIDAPI_HOST),
       },
@@ -155,7 +155,7 @@ const getDefinition = async (req, res) => {
   );
 
   try {
-    const openaiResult = (await openaiPromise).data
+    const openaiResult = (await openaiPromise).data;
     result.explanations = openaiResult.choices[0].message.content;
   } catch (err) {
     const requestStatus = err.response?.status;
@@ -237,71 +237,64 @@ const getRandom = async (req, res) => {
 // GET '/words?'
 const getWords = async (req, res) => {
   const { limit } = req.query;
-    const apiKey = req.headers["authorization"] || "";
-    const token = req.headers["x-auth-token"] || "";
-    let flag = false;
-    if (apiKey) {
+  const apiKey = req.headers["authorization"] || "";
+  const token = req.headers["x-auth-token"] || "";
+  let flag = false;
+  if (apiKey) {
+    if (apiKey.startsWith("Bearer ")) {
+      const key = apiKey.substring(7);
+      user = await User.findOne({
+        where: {
+          api_key: key,
+        },
+      });
 
-        if (apiKey.startsWith("Bearer ")) {
-            const key = apiKey.substring(7);
-            user = await User.findOne({
-                where: {
-                    api_key: key
-                }
-            });
+      if (user) {
+        flag = true;
+      }
+    }
+  } else if (token) {
+    try {
+      const data = jwt.verify(token, secret);
+      user = await User.findOne({
+        where: {
+          id: data.id,
+        },
+      });
 
-            if (user) {
-                flag = true;
-            }
-        }
-    }
-    else if (token) {
-        try {
-            const data = jwt.verify(token, secret);
-            user = await User.findOne({
-                where: {
-                    id: data.id
-                }
-            })
+      if (user) {
+        flag = true;
+      }
+    } catch (err) {}
+  }
 
-            if (user) {
-                flag = true;
-            }
-        }
-        catch (err) { }
+  if (!flag) {
+    return res.status(403).json({ message: "unauthorized" });
+  }
+  if (limit) {
+    const most_search = await Word.findAll({
+      order: [["search_count", "DESC"]],
+      limit: parseInt(limit),
+    });
+    var output = [];
+    for (const datae of most_search) {
+      var datapush = datae.word;
+      output.push(datapush);
     }
-
-    if (!flag) {
-        return res.status(403).json({ message: "unauthorized" });
+    return res.status(200).json({ Most_searched_word: output });
+  } else {
+    //defaultnya 5
+    const most_search = await Word.findAll({
+      order: [["search_count", "DESC"]],
+      limit: 5,
+    });
+    var output = [];
+    for (const datae of most_search) {
+      var datapush = datae.word;
+      output.push(datapush);
     }
-    if (limit) {
-        const most_search = await Word.findAll({
-            order: [['search_count', 'DESC']],
-            limit: parseInt(limit)
-        });
-        var output = [];
-        for (const datae of most_search) {
-            var datapush = {
-                word : datae.word
-            }
-            output.push(datapush)
-        }
-        return res.status(200).send(output)
-    } else {
-        //defaultnya 5
-        const most_search = await Word.findAll({
-            order: [['search_count', 'DESC']],
-            limit: 5
-        });
-        var output = [];
-        for (const datae of most_search) {
-            var datapush = {
-                word : datae.word
-            }
-            output.push(datapush)
-        }
-        return res.status(200).send(output)
-    }
+    return res.status(200).json({ Most_searched_word: output });
+  }
 };
 
 // GET '/words/:keyword/similar'
@@ -384,14 +377,14 @@ const getSimilarWords = async (req, res) => {
     {
       headers: {
         "content-type": "application/json",
-        'Accept-Encoding': 'gzip,deflate,compress',
+        "Accept-Encoding": "gzip,deflate,compress",
         "X-RapidAPI-Key": String(process.env.X_RAPIDAPI_KEY),
         "X-RapidAPI-Host": String(process.env.X_RAPIDAPI_HOST),
       },
     }
   );
 
-  const resultString = result.data.choices[0].message.content
+  const resultString = result.data.choices[0].message.content;
 
   const similarWords = resultString
     .substring(resultString.indexOf("[") + 1, resultString.indexOf("]"))
