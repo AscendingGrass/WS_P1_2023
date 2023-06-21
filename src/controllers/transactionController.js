@@ -205,6 +205,10 @@ const validateSubscriptionTransaction = async (req, res) => {
 
 // GET '/transactions?'
 const getTransactions = async (req, res) => {
+  const user = req.body.user;
+  if(!Number(user.role)){
+    return res.status(403).json({message: "Forbidden access"});
+  }
   const {awal, akhir} = req.query;
   let results = undefined;
   if(awal && akhir){
