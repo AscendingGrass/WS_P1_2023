@@ -3,6 +3,8 @@ const Joi = require("joi").extend(require("@joi/date"));
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const fs = require("fs"); //filesystem
+const path = require("path");
 const connection = require("../databases/db_words");
 const secret = process.env.SECRET_KEY;
 const {
@@ -281,7 +283,7 @@ const updateUserProfilePicture = async (req, res) => {
           id: data.id
         }
       })
-      return res.status(200).json(body);
+      return res.status(200).json({"message":"sukses"});
     });
   }
 };
