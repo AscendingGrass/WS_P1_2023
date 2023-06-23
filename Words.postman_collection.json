@@ -1,0 +1,5073 @@
+{
+	"info": {
+		"_postman_id": "ae8feb7b-9fcb-47a3-8e74-2c08f7155880",
+		"name": "Words",
+		"description": "Dokumentasi ini menjelaskan cara mengakses layanan API Words.Words merupakan sebuah REST API yang memungkinkan pengguna untuk mencari makna dari kata-kata bahasa Inggris, serta menambahkan makna baru yang pengguna buat sendiri. Pengguna juga bisa mendapatkan penjelasan dan contoh kalimat yang dibuat oleh GPT-3.5-turbo berdasarkan definisi dari kamus atau makna terbaik dari pengguna lain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27569454"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"  const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(body);\r",
+									"\r",
+									"  if (\r",
+									"    body.name === undefined ||\r",
+									"    body.email === undefined ||\r",
+									"    body.password === undefined ||\r",
+									"    body.confirm_password === undefined\r",
+									"  ) {\r",
+									"    pm.expect(pm.response.code).equal(400);\r",
+									"  } else {\r",
+									"    pm.expect(pm.response.code).equal(200);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"Successfully added a new user\")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Yoan",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "yoanesleonardi24@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "haiya123",
+									"type": "default"
+								},
+								{
+									"key": "confirm_password",
+									"value": "haiya123",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/users/",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mendaftarkan user, user harus terlebih dahulu mengisi data diri sebelum daftar\n\n## Tables"
+					},
+					"response": [
+						{
+							"name": "Register user berhasil",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Yoan",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "yaoanesleonardi24@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "haiya123",
+											"type": "default"
+										},
+										{
+											"key": "confirm_password",
+											"value": "haiya123",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"66-dQRpeSPb29O/J0Ar2yvq85rk8N0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Jun 2023 16:29:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Yoan\",\n    \"email\": \"yaoanesleonardi24@gmail.com\",\n    \"api_key\": \"e8904366-292d-4624-9ac3-8d0fc5046d90\"\n}"
+						},
+						{
+							"name": "Register user gagal karena email sudah dipakai",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Yoan",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "yaoanesleonardi24@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "haiya123",
+											"type": "default"
+										},
+										{
+											"key": "confirm_password",
+											"value": "haiya123",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-7E/nw4NTj1wudq/7GNEsO0zIZHQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Jun 2023 16:31:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Email already in use\"\n}"
+						},
+						{
+							"name": "Register user jika kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"type": "default"
+										},
+										{
+											"key": "confirm_password",
+											"value": "",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-PMa0p5yBCmac+KJrF1ljAjeM5+E\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Jun 2023 16:34:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "ValidationError: Invalid data field"
+						}
+					]
+				},
+				{
+					"name": "LOGIN user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"  const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(body);\r",
+									"\r",
+									"  if (\r",
+									"    body.email === undefined ||\r",
+									"    body.password === undefined\r",
+									"  ) {\r",
+									"    pm.expect(pm.response.code).equal(400);\r",
+									"  } else {\r",
+									"    pm.expect(pm.response.code).equal(200);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil).have.keys([\r",
+									"    \"email\",\r",
+									"    \"token\",\r",
+									"    \"message\",\r",
+									"  ]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"You have successfully logged in to your account.\")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "yoanesleonardi24@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "haiya123",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/users/login",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "Endpoint ini digunakan agar user dapat login ke web service ini, sehingga setelah login akan mendapat API Key"
+					},
+					"response": [
+						{
+							"name": "Login Berhasil",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "yoanesleonardi24@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "haiya123",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/login",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "361"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"169-vgxp6ldsSJ8d21g5ybYeq12eDq8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Jun 2023 20:44:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"yoanesleonardi24@gmail.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzM4MDI3NCwiZXhwIjoxNjg3MzgzODc0fQ.rVhp-rjrORZs5yn8QldWcGxtQfWRGMLyHmIuJQlysDQ\",\n    \"message\": \"You have successfully logged in to your account.\"\n}"
+						},
+						{
+							"name": "Password salah",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "yoanesleonardi24@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "haiya1234",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/login",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-tXZxqDILUTS1pRYzQABQjZNZ5Cc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 21 Jun 2023 20:45:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Incorrect Password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UPDATE PASSWORD",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"  const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(body);\r",
+									"\r",
+									"  const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(headers);\r",
+									"\r",
+									"  if (\r",
+									"    body.password === undefined ||\r",
+									"    body.new_password === undefined ||\r",
+									"    headers[\"x-auth-token\"] === undefined\r",
+									"  ) {\r",
+									"    pm.expect(pm.response.code).equal(400);\r",
+									"  } else {\r",
+									"    pm.expect(pm.response.code).equal(200);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"Successfully changed password\")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6Ijc2NjUwNTg4LTkwZTYtNGYzMi04MGIwLWM0MWFiMjhhNTY3YyIsImlhdCI6MTY4NzE3ODU0NiwiZXhwIjoxNjg3MTgyMTQ2fQ.sOUZzRWrDnnVYssDeQgWaAEI1khs3jIp2Vy1gTSmJbU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "haiya123",
+									"type": "text"
+								},
+								{
+									"key": "new_password",
+									"value": "haiya123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/users/password",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								"password"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk merubah password pada akun user, sehingga password user yang lama akan tergantikan oleh password user yang baru"
+					},
+					"response": [
+						{
+							"name": "UPDATE PASSWORD UNAUTHORIZED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJiYmVkM2Y0Yi1kYmI0LTQyYjYtOTM5YS0yNzk3MmM2MzZjNzEiLCJpYXQiOjE2ODc0MDA4ODAsImV4cCI6MTY4NzQwNDQ4MH0.pftpkvzmGRC6pIOEJnzZfndZI8SC34nQb0ZRglLod5sD",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "haiya1234",
+											"type": "text"
+										},
+										{
+											"key": "new_password",
+											"value": "haiya123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/password",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"password"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:28:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "UPDATE PASSWORD PASSWORD SALAH",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJiYmVkM2Y0Yi1kYmI0LTQyYjYtOTM5YS0yNzk3MmM2MzZjNzEiLCJpYXQiOjE2ODc0MDA4ODAsImV4cCI6MTY4NzQwNDQ4MH0.pftpkvzmGRC6pIOEJnzZfndZI8SC34nQb0ZRglLod5s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "haiya1234",
+											"type": "text"
+										},
+										{
+											"key": "new_password",
+											"value": "haiya123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/password",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"password"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-tXZxqDILUTS1pRYzQABQjZNZ5Cc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:29:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Incorrect Password\"\n}"
+						},
+						{
+							"name": "UPDATE PASSWORD BERHASIL UBAH PASSWORD",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJiYmVkM2Y0Yi1kYmI0LTQyYjYtOTM5YS0yNzk3MmM2MzZjNzEiLCJpYXQiOjE2ODc0MDA4ODAsImV4cCI6MTY4NzQwNDQ4MH0.pftpkvzmGRC6pIOEJnzZfndZI8SC34nQb0ZRglLod5s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "haiya123",
+											"type": "text"
+										},
+										{
+											"key": "new_password",
+											"value": "haiya1234",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/password",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-mnNFa8IM5Jj0hmm7eSlw3FL3qQg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:29:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Berhasil ubah password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "REGENERATE API KEY",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    if (\r",
+									"        headers[\"x-auth-token\"] === undefined\r",
+									"    ) {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJiYmVkM2Y0Yi1kYmI0LTQyYjYtOTM5YS0yNzk3MmM2MzZjNzEiLCJpYXQiOjE2ODc0MDEwNzAsImV4cCI6MTY4NzQwNDY3MH0.0MU5xwbVg6Qw9dKxg_l0JZ5vbDU612fbxMy_aOJ6j5I",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/users/key",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								"key"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk merefresh api key user"
+					},
+					"response": [
+						{
+							"name": "REGENERATE API KEY UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjQxNjBiYTg4LWI2ODctNGVkMi1iOTg3LTNlZjk1YTc2NmNjZCIsImlhdCI6MTY4NzE4NjM4MiwiZXhwIjoxNjg3MTg5OTgyfQ.btRCME7Yp4N9vhkcgdzne4gATNNQ7vZyV8-RHXDHD4o",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/key",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"key"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:30:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "REGENERATE API KEY SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJiYmVkM2Y0Yi1kYmI0LTQyYjYtOTM5YS0yNzk3MmM2MzZjNzEiLCJpYXQiOjE2ODc0MDEwNzAsImV4cCI6MTY4NzQwNDY3MH0.0MU5xwbVg6Qw9dKxg_l0JZ5vbDU612fbxMy_aOJ6j5I",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/key",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"key"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36-4bu5K986v4BchKBARxugqtY9jsY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:31:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"new_api_key\": \"576869fb-610e-4bbc-bbb6-e903810df5ef\"\n}"
+						},
+						{
+							"name": "REGENERATE API KEY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjQxNjBiYTg4LWI2ODctNGVkMi1iOTg3LTNlZjk1YTc2NmNjZCIsImlhdCI6MTY4NzE4NjM4MiwiZXhwIjoxNjg3MTg5OTgyfQ.btRCME7Yp4N9vhkcgdzne4gATNNQ7vZyV8-RHXDHD4o",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/key",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"key"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:21:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UPDATE PROFILE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(body);\r",
+									"\r",
+									"    if (\r",
+									"        headers[\"x-auth-token\"] === undefined || body.pengguna_pp === undefined\r",
+									"    ) {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil.message)\r",
+									"        .include(\"sukses\")\r",
+									"        .and.not.include(\"undefined\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pengguna_pp",
+									"type": "file",
+									"src": "/C:/Users/ferp/Downloads/Avatar-FF-Keren-untuk-WA-13.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/users/profile",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk merubah data akun user"
+					},
+					"response": [
+						{
+							"name": "UPDATE PROFILE UNAUTHORIZED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "pengguna_pp",
+											"type": "file",
+											"src": "/C:/Users/ferp/Desktop/BELAJAR BOOTSTRAP/index.html"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/profile",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:33:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "UPDATE PROFILE NOT IMAGE (! JPG/JPEG/PNG )",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "pengguna_pp",
+											"type": "file",
+											"src": "/C:/Users/ferp/Desktop/BELAJAR BOOTSTRAP/index.html"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/profile",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3c-0+q2jP9aeRZOmGmW1ypgllvliC4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:47:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Tipe file harus .png, .jpg atau .jpeg pada field pengguna_pp"
+						},
+						{
+							"name": "UPDATE PROFILE SUCCESS",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "pengguna_pp",
+											"type": "file",
+											"src": "/C:/Users/ferp/Downloads/Avatar-FF-Keren-untuk-WA-13.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/users/profile",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "20"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"14-k0NA8o5kmhUddLb9cuD9UGDAjiY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:49:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"sukses\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DELETE USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    if (\r",
+									"        headers[\"x-auth-token\"] === undefined\r",
+									"    ) {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"User with username undefined was successfully deleted\")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMTY1OSwiZXhwIjoxNjg3NDE1MjU5fQ.PdfhO6gohkpQWjFeA8BJZEGoWbaX1UA77_SjpCkZXcs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{HOST}}/users",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk merubah status user menjadi non-aktif sehingga user tidak benar benar terhapus, namun hanya di non-aktifkan"
+					},
+					"response": [
+						{
+							"name": "DELETE USER UNAUTHORIZED",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzMyNzQ4NywiZXhwIjoxNjg3MzMxMDg3fQ.1VpGHA8XYZyXIRS9e2g_IMVMPxtA7-i3-7kgwnc7C2E",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/users",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-gPcElaUI2vQjfP9AnVpG9kx0KzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:27:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid JWT token\"\n}"
+						},
+						{
+							"name": "DELETE USER SUCCESS",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMTY1OSwiZXhwIjoxNjg3NDE1MjU5fQ.PdfhO6gohkpQWjFeA8BJZEGoWbaX1UA77_SjpCkZXcs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/users",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "67"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"43-CbhVKmF/krdXOldb43Dt9YaXi/s\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:27:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User with username undefined was successfully deleted\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get users admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    if (\r",
+									"        headers[\"x-auth-token\"] === undefined\r",
+									"    ) {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil).have.keys([\r",
+									"    \"users\",\r",
+									"  ]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/users/?name=",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk melihat data yang dimiliki oleh admin"
+					},
+					"response": [
+						{
+							"name": "get users admin UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MSwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJhYmYxZDI5Ny1lYjg1LTQyZTUtOGI2Ny1kNzQ4MjRjZGRjZjQiLCJpYXQiOjE2ODczMzcyMDksImV4cCI6MTY4NzM0MDgwOX0.DB_PMHBXMvL-wWI4Pz9YPqdIbwe-_JrGiKFfd7ic2Ow",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/?name=",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-gPcElaUI2vQjfP9AnVpG9kx0KzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:44:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid JWT token\"\n}"
+						},
+						{
+							"name": "get users admin BUKAN ADMIN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/?name=",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-jF8YAbqevWJCzE+L61bECHDk710\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:44:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Forbidden access\"\n}"
+						},
+						{
+							"name": "get users admin SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/users/?name=",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "599"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"257-uAIZ5rBTHmdg3wsJzU3e140aL7Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:45:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"users\": [\n        {\n            \"id\": 2,\n            \"name\": \"Yoan\",\n            \"password\": \"$2b$10$cMcrpPhXg6hcvd5JoLmUN.pU2uQyRi74HroeyVw8.ADqu29Zfny/6\",\n            \"email\": \"yoanesleonardi23@gmail.com\",\n            \"api_key\": \"3b842ece-0664-453c-9161-291610ccf98c\",\n            \"profile_path\": null,\n            \"role\": 0,\n            \"active\": true,\n            \"createdAt\": \"2023-05-23 15:39:42\",\n            \"updatedAt\": \"2023-05-26 11:07:28\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Yoan\",\n            \"password\": \"$2b$10$BjrW5kwPoi4ErZAYyX570uPJeMZXpcvMhTj75UAU63qKbWQV.ReMa\",\n            \"email\": \"yoanesleonardi24@gmail.com\",\n            \"api_key\": \"576869fb-610e-4bbc-bbb6-e903810df5ef\",\n            \"profile_path\": null,\n            \"role\": 1,\n            \"active\": true,\n            \"createdAt\": \"2023-05-24 13:50:46\",\n            \"updatedAt\": \"2023-06-22 09:31:18\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "get user data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    if (\r",
+									"        headers[\"x-auth-token\"] === undefined\r",
+									"    ) {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil).have.keys([\r",
+									"    \"user\",\r",
+									"  ]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{HOST}}/users/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk melihat data data user pada web service ini."
+					},
+					"response": [
+						{
+							"name": "get user data UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MSwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJhYmYxZDI5Ny1lYjg1LTQyZTUtOGI2Ny1kNzQ4MjRjZGRjZjQiLCJpYXQiOjE2ODczMzcyMDksImV4cCI6MTY4NzM0MDgwOX0.DB_PMHBXMvL-wWI4Pz9YPqdIbwe-_JrGiKFfd7ic2Ow",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/users/:id",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-gPcElaUI2vQjfP9AnVpG9kx0KzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:38:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid JWT token\"\n}"
+						},
+						{
+							"name": "get user data success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/users/:id",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "302"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12e-QZVDJwCXcvVeBIZf3lzIAhJ0qNw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:39:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"Yoan\",\n        \"password\": \"$2b$10$BjrW5kwPoi4ErZAYyX570uPJeMZXpcvMhTj75UAU63qKbWQV.ReMa\",\n        \"email\": \"yoanesleonardi24@gmail.com\",\n        \"api_key\": \"576869fb-610e-4bbc-bbb6-e903810df5ef\",\n        \"profile_path\": null,\n        \"role\": 0,\n        \"active\": true,\n        \"createdAt\": \"2023-05-24 13:50:46\",\n        \"updatedAt\": \"2023-06-22 09:31:18\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "User merupakan kumpulan semua endpoint yang berhubungan dengan user seperti add,update, dan delete user"
+		},
+		{
+			"name": "Word",
+			"item": [
+				{
+					"name": "ADD explanation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(body);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || body.keyword !== undefined\r",
+									"        || body.explanation !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil).have.keys([\r",
+									"        \"word\",\r",
+									"        \"newExplanation\",\r",
+									"        \"message\"\r",
+									"    ]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"Successfully added a new explanation to the word \")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "keyword",
+									"value": "halo",
+									"type": "text"
+								},
+								{
+									"key": "explanation",
+									"value": "halo adalah kata sapaan",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/explanations",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"explanations"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk menambah deskripsi penjelasan dari suatu keyword."
+					},
+					"response": [
+						{
+							"name": "ADD explanation UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzE4NzkwNSwiZXhwIjoxNjg3MTkxNTA1fQ.__p9QsxAjj8OjZ6xftUhGQf-DRXCK3CsN0zEsIS_lco",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "keyword",
+											"value": "a",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "aaaaaaaaaaaa",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:55:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "ADD explanation TIDAK MEMILIKI SUBSCRIPTION",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "keyword",
+											"value": "halo",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "halo adalah kata sapaan",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-5nRGHu9FsraWbURLYFTp7ym4C7g\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 02:56:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"You must buy a subscriptions first\"\n}"
+						},
+						{
+							"name": "ADD explanation SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "keyword",
+											"value": "halo",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "halo adalah kata sapaan",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "123"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7b-jIryYoGrKTIgijZNxgVzzLtRTV8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:24:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"word\": \"halo\",\n    \"newExplnation\": \"halo adalah kata sapaan\",\n    \"message\": \"Successfully added a new explanation to the word halo\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UPDATE explanation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(body);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || body.id !== undefined\r",
+									"        || body.explanation !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil.message)\r",
+									"    .include(\"Successfully update explanation!\")\r",
+									"    .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "explanation",
+									"value": "bb",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/explanations",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"explanations"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk merubah deskripsi penjelasan dari suatu keyword."
+					},
+					"response": [
+						{
+							"name": "UPDATE explanation UNAUTHORIZED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzE4NzkwNSwiZXhwIjoxNjg3MTkxNTA1fQ.__p9QsxAjj8OjZ6xftUhGQf-DRXCK3CsN0zEsIS_lco",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "bb",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:24:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "UPDATE explanation NOT FOUND",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "bb",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-LS5XSj4JJFyiM6Kd5NYnslk/obM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:25:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Explanation Not Found\"\n}"
+						},
+						{
+							"name": "UPDATE explanation SUCCESS",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "explanation",
+											"value": "bb",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e-KO80qLgTmru5HblAPbOcj3NzLhk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:26:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully update explanation!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DELETE explanation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(body);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || body.id !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil.message)\r",
+									"        .include(\"Successfully delete explanation!\")\r",
+									"        .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/explanations",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"explanations"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk menghapus deskripsi penjelasan dari suatu keyword."
+					},
+					"response": [
+						{
+							"name": "DELETE explanation UNAUTHORIZED",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzE4NzkwNSwiZXhwIjoxNjg3MTkxNTA1fQ.__p9QsxAjj8OjZ6xftUhGQf-DRXCK3CsN0zEsIS_lco",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:09:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "DELETE explanation NOT FOUND",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiIzYjg0MmVjZS0wNjY0LTQ1M2MtOTE2MS0yOTE2MTBjY2Y5OGMiLCJpYXQiOjE2ODc0MTA1ODcsImV4cCI6MTY4NzQxNDE4N30.4bUb6In1dKLHB9GusvGo0IKDYZmhP_hBZUksmLMZh1o",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-LS5XSj4JJFyiM6Kd5NYnslk/obM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:10:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Explanation Not Found\"\n}"
+						},
+						{
+							"name": "DELETE explanation SUCCESS",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e-QIqXc+GJuapnex9vEty7vDP7Xng\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:11:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully delete explanation!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GET definition",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const params = pm.request.params.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(params);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || params.keyword !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil).have.keys([\r",
+									"        \"details\",\r",
+									"        \"explanations\",\r",
+									"    ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/words/:keyword",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"words",
+								":keyword"
+							],
+							"variable": [
+								{
+									"key": "keyword",
+									"value": "bob"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mencari kata kata dengan menggunkan keyword"
+					},
+					"response": [
+						{
+							"name": "GET definition UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6Ijc2NjUwNTg4LTkwZTYtNGYzMi04MGIwLWM0MWFiMjhhNTY3YyIsImlhdCI6MTY4NzE3ODU0NiwiZXhwIjoxNjg3MTgyMTQ2fQ.sOUZzRWrDnnVYssDeQgWaAEI1khs3jIp2Vy1gTSmJbU",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/:keyword",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										":keyword"
+									],
+									"variable": [
+										{
+											"key": "keyword",
+											"value": "bob"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:11:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "GET definition SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/:keyword",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										":keyword"
+									],
+									"variable": [
+										{
+											"key": "keyword",
+											"value": "bob"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "6765"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a6d-JDXoM6EdZ9j3Y8yMZ8qK5f8omeA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:11:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"details\": [\n        {\n            \"word\": \"bob\",\n            \"phonetics\": [\n                {\n                    \"audio\": \"https://api.dictionaryapi.dev/media/pronunciations/en/bob-au.mp3\",\n                    \"sourceUrl\": \"https://commons.wikimedia.org/w/index.php?curid=75268112\",\n                    \"license\": {\n                        \"name\": \"BY-SA 4.0\",\n                        \"url\": \"https://creativecommons.org/licenses/by-sa/4.0\"\n                    }\n                },\n                {\n                    \"text\": \"/bɒb/\",\n                    \"audio\": \"\"\n                },\n                {\n                    \"text\": \"/bɑb/\",\n                    \"audio\": \"\"\n                }\n            ],\n            \"meanings\": [\n                {\n                    \"partOfSpeech\": \"noun\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"A bobbing motion; a quick up and down movement.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"a bob of the head\"\n                        },\n                        {\n                            \"definition\": \"A curtsy.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A bobber (buoyant fishing device).\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"Any of various hesperiid butterflies.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                },\n                {\n                    \"partOfSpeech\": \"verb\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"To move gently and vertically, in either a single motion or repeatedly up and down, at or near the surface of a body of water, or similar medium.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"The ball, which we had thought lost, suddenly bobbed up out of the water.\"\n                        },\n                        {\n                            \"definition\": \"To move (something) as though it were bobbing in water.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"I bobbed my head under water and saw the goldfish.\"\n                        },\n                        {\n                            \"definition\": \"To curtsy.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"To strike with a quick, light blow; to tap.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                }\n            ],\n            \"license\": {\n                \"name\": \"CC BY-SA 3.0\",\n                \"url\": \"https://creativecommons.org/licenses/by-sa/3.0\"\n            },\n            \"sourceUrls\": [\n                \"https://en.wiktionary.org/wiki/bob\"\n            ]\n        },\n        {\n            \"word\": \"bob\",\n            \"phonetics\": [\n                {\n                    \"audio\": \"https://api.dictionaryapi.dev/media/pronunciations/en/bob-au.mp3\",\n                    \"sourceUrl\": \"https://commons.wikimedia.org/w/index.php?curid=75268112\",\n                    \"license\": {\n                        \"name\": \"BY-SA 4.0\",\n                        \"url\": \"https://creativecommons.org/licenses/by-sa/4.0\"\n                    }\n                },\n                {\n                    \"text\": \"/bɒb/\",\n                    \"audio\": \"\"\n                },\n                {\n                    \"text\": \"/bɑb/\",\n                    \"audio\": \"\"\n                }\n            ],\n            \"meanings\": [\n                {\n                    \"partOfSpeech\": \"noun\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"A bob haircut.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"Any round object attached loosely to a flexible line, a rod, a body part etc., so that it may swing when hanging from it\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"The dangling mass of a pendulum or plumb line.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"The docked tail of a horse.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A short line ending a stanza of a poem.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"The short runner of a sled.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A bobsleigh.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A small wheel, made of leather, with rounded edges, used in polishing spoons, etc.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A working beam in a steam engine.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A particular style of ringing changes on bells.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A blow; a shake or jog; a rap, as with the fist.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A knot or short curl of hair; also, a bob wig.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"The refrain of a song.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A jeer; a sharp jest or taunt.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                },\n                {\n                    \"partOfSpeech\": \"verb\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"To cut (hair) into a bob haircut.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"I got my hair bobbed. How do you like it?\"\n                        },\n                        {\n                            \"definition\": \"To shorten by cutting; to dock; to crop\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"To bobsleigh.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                }\n            ],\n            \"license\": {\n                \"name\": \"CC BY-SA 3.0\",\n                \"url\": \"https://creativecommons.org/licenses/by-sa/3.0\"\n            },\n            \"sourceUrls\": [\n                \"https://en.wiktionary.org/wiki/bob\"\n            ]\n        },\n        {\n            \"word\": \"bob\",\n            \"phonetics\": [\n                {\n                    \"audio\": \"https://api.dictionaryapi.dev/media/pronunciations/en/bob-au.mp3\",\n                    \"sourceUrl\": \"https://commons.wikimedia.org/w/index.php?curid=75268112\",\n                    \"license\": {\n                        \"name\": \"BY-SA 4.0\",\n                        \"url\": \"https://creativecommons.org/licenses/by-sa/4.0\"\n                    }\n                },\n                {\n                    \"text\": \"/bɒb/\",\n                    \"audio\": \"\"\n                },\n                {\n                    \"text\": \"/bɑb/\",\n                    \"audio\": \"\"\n                }\n            ],\n            \"meanings\": [\n                {\n                    \"partOfSpeech\": \"noun\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"(Kenya) A shilling.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"I could have saved myself a few bob buying it somewhere else.\"\n                        },\n                        {\n                            \"definition\": \"A 10-cent coin.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"An unspecified amount of money.\",\n                            \"synonyms\": [],\n                            \"antonyms\": [],\n                            \"example\": \"Spot me a few bob, Robert.\"\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                }\n            ],\n            \"license\": {\n                \"name\": \"CC BY-SA 3.0\",\n                \"url\": \"https://creativecommons.org/licenses/by-sa/3.0\"\n            },\n            \"sourceUrls\": [\n                \"https://en.wiktionary.org/wiki/bob\"\n            ]\n        },\n        {\n            \"word\": \"bob\",\n            \"phonetics\": [\n                {\n                    \"audio\": \"https://api.dictionaryapi.dev/media/pronunciations/en/bob-au.mp3\",\n                    \"sourceUrl\": \"https://commons.wikimedia.org/w/index.php?curid=75268112\",\n                    \"license\": {\n                        \"name\": \"BY-SA 4.0\",\n                        \"url\": \"https://creativecommons.org/licenses/by-sa/4.0\"\n                    }\n                },\n                {\n                    \"text\": \"/bɒb/\",\n                    \"audio\": \"\"\n                },\n                {\n                    \"text\": \"/bɑb/\",\n                    \"audio\": \"\"\n                }\n            ],\n            \"meanings\": [\n                {\n                    \"partOfSpeech\": \"noun\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"A dish made of small pieces of meat, with or without vegetables, which are skewered on a wooden or metal stick and roasted in an oven or over an open fire.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        },\n                        {\n                            \"definition\": \"A crystal structure consisting of a central spine (the shish) and disks or lumps growing out from it (the kebab).\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                }\n            ],\n            \"license\": {\n                \"name\": \"CC BY-SA 3.0\",\n                \"url\": \"https://creativecommons.org/licenses/by-sa/3.0\"\n            },\n            \"sourceUrls\": [\n                \"https://en.wiktionary.org/wiki/bob\",\n                \"https://en.wiktionary.org/wiki/shish%20kebab\",\n                \"https://en.wiktionary.org/wiki/shishkabob\"\n            ]\n        },\n        {\n            \"word\": \"bob\",\n            \"phonetics\": [\n                {\n                    \"audio\": \"https://api.dictionaryapi.dev/media/pronunciations/en/bob-au.mp3\",\n                    \"sourceUrl\": \"https://commons.wikimedia.org/w/index.php?curid=75268112\",\n                    \"license\": {\n                        \"name\": \"BY-SA 4.0\",\n                        \"url\": \"https://creativecommons.org/licenses/by-sa/4.0\"\n                    }\n                },\n                {\n                    \"text\": \"/bɒb/\",\n                    \"audio\": \"\"\n                },\n                {\n                    \"text\": \"/bɑb/\",\n                    \"audio\": \"\"\n                }\n            ],\n            \"meanings\": [\n                {\n                    \"partOfSpeech\": \"noun\",\n                    \"definitions\": [\n                        {\n                            \"definition\": \"A graphical element, resembling a hardware sprite, that can be blitted around the screen in large numbers.\",\n                            \"synonyms\": [],\n                            \"antonyms\": []\n                        }\n                    ],\n                    \"synonyms\": [],\n                    \"antonyms\": []\n                }\n            ],\n            \"license\": {\n                \"name\": \"CC BY-SA 3.0\",\n                \"url\": \"https://creativecommons.org/licenses/by-sa/3.0\"\n            },\n            \"sourceUrls\": [\n                \"https://en.wiktionary.org/wiki/bob\"\n            ]\n        }\n    ],\n    \"explanations\": \"Bob can mean a few different things depending on the context, but it often has to do with something moving up and down or being cut short. \\nFor example, when we say a person has a \\\"bob\\\" haircut, it means their hair is cut short and typically at a similar length all around their head. \\nOr when we say a fishing \\\"bobber\\\" it's a small ball or device that sits on the water and bobs up and down when a fish bites the bait. \\nOverall, \\\"bob\\\" usually refers to something moving up and down or being cut short in some way.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get similar words",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const params = pm.request.params.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(params);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || params.keyword !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil).have.keys([\r",
+									"        \"count\",\r",
+									"        \"similarWords\",\r",
+									"    ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/words/:keyword/similar",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"words",
+								":keyword",
+								"similar"
+							],
+							"variable": [
+								{
+									"key": "keyword",
+									"value": "bob"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mendapatkan kata kata yang mirip dengan keyword"
+					},
+					"response": [
+						{
+							"name": "get similar words UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJkMTNjZmMwMS03Njg0LTQyN2QtOWJhZS1mYmZmMTdhZmMyYTIiLCJpYXQiOjE2ODczNDAzMjEsImV4cCI6MTY4NzM0MzkyMX0.fY-TuQGaYorqlHnB2IIOyTtk8UvQM7ds7tSrl41azIk",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/:keyword/similar",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										":keyword",
+										"similar"
+									],
+									"variable": [
+										{
+											"key": "keyword",
+											"value": "bob"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:12:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "get similar words SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/:keyword/similar",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										":keyword",
+										"similar"
+									],
+									"variable": [
+										{
+											"key": "keyword",
+											"value": "bob"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "186"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ba-Ki25VuoJWoeaHOgP2FY8jVy6JdQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:13:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 17,\n    \"similarWords\": [\n        \"blob\",\n        \"bobsled\",\n        \"bobbin\",\n        \"bobby\",\n        \"cobble\",\n        \"cobweb\",\n        \"dobby\",\n        \"goblet\",\n        \"hobbit\",\n        \"hobby\",\n        \"jibber-jabber\",\n        \"lobe\",\n        \"mobster\",\n        \"nabob\",\n        \"sobbing\",\n        \"throbbed\",\n        \"wobbly\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "GET random",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"  const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(headers);\r",
+									"\r",
+									"  if((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\") ||\r",
+									"  (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")){\r",
+									"      pm.expect(pm.response.code).equal(200);\r",
+									"  }else {\r",
+									"    pm.expect(pm.response.code).equal(400);\r",
+									"  }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil).have.keys([\r",
+									"    \"count\",\r",
+									"    \"words\",\r",
+									"  ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/words/random?words=1",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"words",
+								"random"
+							],
+							"query": [
+								{
+									"key": "words",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mendapatkan kata kata acak sesuai dengan jumlah yang diinputkan user"
+					},
+					"response": [
+						{
+							"name": "GET random UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJkMTNjZmMwMS03Njg0LTQyN2QtOWJhZS1mYmZmMTdhZmMyYTIiLCJpYXQiOjE2ODczNDAzMjEsImV4cCI6MTY4NzM0MzkyMX0.fY-TuQGaYorqlHnB2IIOyTtk8UvQM7ds7tSrl41azIk",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/random?words=1",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										"random"
+									],
+									"query": [
+										{
+											"key": "words",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:13:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "GET random SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									},
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words/random?words=1",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words",
+										"random"
+									],
+									"query": [
+										{
+											"key": "words",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-WypIt14d66qeuR4aVFUL6Sy4BBU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:13:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"words\": [\n        \"reenter\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "MOST SEARCH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || params.keyword !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"  const hasil = pm.response.json();\r",
+									"  pm.expect(hasil).have.keys([\r",
+									"    \"Most_searched_word\"\r",
+									"  ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/words",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"words"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mendapatkan kata kata yang paling sering dicari pada web service ini"
+					},
+					"response": [
+						{
+							"name": "MOST SEARCH UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJkMTNjZmMwMS03Njg0LTQyN2QtOWJhZS1mYmZmMTdhZmMyYTIiLCJpYXQiOjE2ODczNDAzMjEsImV4cCI6MTY4NzM0MzkyMX0.fY-TuQGaYorqlHnB2IIOyTtk8UvQM7ds7tSrl41azIk",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:14:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "MOST SEARCH SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/words",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"words"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-jhO9GFIwnG0EkmArCqHBIGjiWnI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:14:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"word\": \"halo2\"\n    },\n    {\n        \"word\": \"halo\"\n    },\n    {\n        \"word\": \"bob\"\n    },\n    {\n        \"word\": \"reenter\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "POST LIKE DISLIKE (belom testing)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const params = pm.request.params.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(params);\r",
+									"\r",
+									"    const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(body);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || params.id !== undefined || body.status !== undefined) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response message\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil.message)\r",
+									"        .include(\"Berhasil merubah status\")\r",
+									"        .and.not.include(\"undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/explanations/:id/likes",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"explanations",
+								":id",
+								"likes"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk memberikan reaksi suka atau tidak suka terhadap suatu postingan (kata)"
+					},
+					"response": [
+						{
+							"name": "POST LIKE DISLIKE UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJmNmNiZmUwMS01MWUyLTQ1MmMtYTYwZS01YTViYWVjMDg4YjEiLCJpYXQiOjE2ODUwNzMzNzQsImV4cCI6MTY4NTA3Njk3NH0.uS6rCiBmOGonZQZlJ9bod5bXFzK5AQqo7TFFU50DWfo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations/:id/likes",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations",
+										":id",
+										"likes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:15:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "POST LIKE DISLIKE NOT FOUND",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations/:id/likes",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations",
+										":id",
+										"likes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-1TUAAXT8eTliv/7HOXxhMb20bXk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:15:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Explanation tidak ditemukan\"\n}"
+						},
+						{
+							"name": "POST LIKE DISLIKE SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/explanations/:id/likes",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations",
+										":id",
+										"likes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25-RPUYlEtqQ8cNZ17F7afXJuMinPw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:16:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Berhasil merubah status\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get explanations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const params = pm.request.params.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(params);\r",
+									"\r",
+									"    if ((headers[\"x-auth-token\"] === \"\" && headers[\"authorization\"] !== \"\")\r",
+									"        || (headers[\"x-auth-token\"] !== \"\" && headers[\"authorization\"] === \"\")\r",
+									"        || (params.word !== undefined && params.name !== undefined)) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil).have.keys([\r",
+									"        \"result\",\r",
+									"    ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/explanations?word=halo",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"explanations"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Yoan",
+									"disabled": true
+								},
+								{
+									"key": "word",
+									"value": "halo"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mendapatkan penjelasan mengenai arti dari kata yang diberikan user, berdasarkan nama user yang memberikan penjelasan"
+					},
+					"response": [
+						{
+							"name": "get explanations UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6ImJiZDJkMzYyLTczNGMtNDY4Yy1hZWQwLTE2MTA5ZjNkY2JmMSIsImlhdCI6MTY4NzMzNzcwNywiZXhwIjoxNjg3MzQxMzA3fQ.cywRIaSMU2RMQpJTuqexb49OkKytMcEivFcCXJCxhGQ",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/explanations?name=Yoan&word=a",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Yoan"
+										},
+										{
+											"key": "word",
+											"value": "a"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-gPcElaUI2vQjfP9AnVpG9kx0KzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:16:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid JWT token\"\n}"
+						},
+						{
+							"name": "get explanations NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/explanations?name=Yoan&word=a",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Yoan"
+										},
+										{
+											"key": "word",
+											"value": "a"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c-8/Dg/fNA33lsSGkzAvCHyEr5dZs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:16:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Word not found\"\n}"
+						},
+						{
+							"name": "get explanations SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MSwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjU3Njg2OWZiLTYxMGUtNGJiYy1iYmI2LWU5MDM4MTBkZjVlZiIsImlhdCI6MTY4NzQxMDY1NSwiZXhwIjoxNjg3NDE0MjU1fQ.oMnPqhdvru-97MJqBBeSC0-M6QY1qIeCKIZp7rHKiSY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/explanations?word=halo",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"explanations"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Yoan",
+											"disabled": true
+										},
+										{
+											"key": "word",
+											"value": "halo"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "176"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b0-Qdz6qXVAnOHccqUdG++xuFY0Yis\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 05:29:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": [\n        {\n            \"id\": 3,\n            \"user_id\": 3,\n            \"word_id\": 1,\n            \"explanation\": \"halo adalah kata sapaan\",\n            \"likes\": 0,\n            \"dislikes\": 0,\n            \"createdAt\": \"2023-06-22 12:15:58\",\n            \"updatedAt\": \"2023-06-22 12:15:58\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Word merupakan kumpulan semua endpoint yang berhubungan dengan mekanisme pada web service \"Words\""
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "pay",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = pm.request.body.urlencoded.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"        return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"        return { ...hasil };\r",
+									"    }\r",
+									"}, {});\r",
+									"console.log(body);\r",
+									"\r",
+									"if (body.replace === \"true\") {\r",
+									"    pm.test(\"Correct response's format\", function () {\r",
+									"        const hasil = pm.response.json();\r",
+									"        pm.expect(hasil).have.keys([\r",
+									"            \"token\",\r",
+									"            \"redirect_url\",\r",
+									"        ]);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "replace",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/subscription/pay",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"subscription",
+								"pay"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk membayar tagihan langganan (user) web-service ini"
+					},
+					"response": [
+						{
+							"name": "pay UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI0MTYwYmE4OC1iNjg3LTRlZDItYjk4Ny0zZWY5NWE3NjZjY2QiLCJpYXQiOjE2ODcxODU4NzcsImV4cCI6MTY4NzE4OTQ3N30.GEEpHUFbaP9FZDGpaMjKi_zcsIAIAW-imJeEjE3MzZ4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "replace",
+											"value": "true",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/subscription/pay",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"subscription",
+										"pay"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:20:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "pay SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "replace",
+											"value": "true",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{HOST}}/subscription/pay",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"subscription",
+										"pay"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "155"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9b-ogsdj57xxvfgWaU6Gj8qHGs2jpM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:20:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"10967f2f-167e-4133-a732-83d9d7464814\",\n    \"redirect_url\": \"https://app.sandbox.midtrans.com/snap/v3/redirection/10967f2f-167e-4133-a732-83d9d7464814\"\n}"
+						}
+					]
+				},
+				{
+					"name": "verify payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"  const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"    if (!item.disabled) {\r",
+									"      return { ...hasil, [item.key]: item.value };\r",
+									"    } else {\r",
+									"      return { ...hasil };\r",
+									"    }\r",
+									"  }, {});\r",
+									"  console.log(headers);\r",
+									"\r",
+									"  if (\r",
+									"    headers[\"x-auth-token\"] === undefined\r",
+									"  ) {\r",
+									"    pm.expect(pm.response.code).equal(400);\r",
+									"  } else {\r",
+									"    pm.expect(pm.response.code).equal(200);\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST}}/subscription/validate",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"subscription",
+								"validate"
+							]
+						},
+						"description": "Endpoint ini digunakan untuk mengecek dan memastikan pembayaran yang dilakukan user"
+					},
+					"response": [
+						{
+							"name": "verify payment UNAUTHORIZED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MCwic3Vic19zdGF0dXMiOiJzZXR0bGVtZW50IiwiYXBpX2tleSI6IjQxNjBiYTg4LWI2ODctNGVkMi1iOTg3LTNlZjk1YTc2NmNjZCIsImlhdCI6MTY4NzE4NjA0OSwiZXhwIjoxNjg3MTg5NjQ5fQ.NftdOI8JI6sjckDlwGs6jUooJgvL23T-W80GxQxHURE",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/subscription/validate",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"subscription",
+										"validate"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-uFcJ9RiXMWeHF66JNghVckzTmcM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:21:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"unauthorized\"\n}"
+						},
+						{
+							"name": "verify payment SUCCESS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST}}/subscription/validate",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"subscription",
+										"validate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "184"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b8-JaIN0Q9blA/9/gboIdkdcLh7NqM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:22:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Payment verified, subscription is now active\",\n    \"expiration_date\": \"2023-07-22T03:22:22.936Z\",\n    \"updatedTransactions\": [\n        {\n            \"dateTime\": \"2023-06-22 10:20:45\",\n            \"status\": \"settlement\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is correct\", function () {\r",
+									"    const headers = pm.request.headers.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(headers);\r",
+									"\r",
+									"    const params = pm.request.params.reduce((hasil, item) => {\r",
+									"        if (!item.disabled) {\r",
+									"            return { ...hasil, [item.key]: item.value };\r",
+									"        } else {\r",
+									"            return { ...hasil };\r",
+									"        }\r",
+									"    }, {});\r",
+									"    console.log(params);\r",
+									"\r",
+									"    if (headers[\"x-auth-token\"] !== undefined || (params.awal === undefined && params.akhir !== undefined)\r",
+									"    || (params.awal !== undefined && params.akhir === undefined)) {\r",
+									"        pm.expect(pm.response.code).equal(200);\r",
+									"    } else {\r",
+									"        pm.expect(pm.response.code).equal(400);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct response's format\", function () {\r",
+									"    const hasil = pm.response.json();\r",
+									"    pm.expect(hasil).have.keys([\r",
+									"        \"results\",\r",
+									"    ]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{HOST}}/transactions?awal=2023-06-19 22:22:24&akhir=2023-06-19 22:22:24",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "awal",
+									"value": "2023-06-19 22:22:24"
+								},
+								{
+									"key": "akhir",
+									"value": "2023-06-19 22:22:24"
+								}
+							]
+						},
+						"description": "Endpoint ini digunakan untuk melihat data transaksi berdasarkan range tanggal yang diberikan, endpoint ini hanya digunakan oleh admin"
+					},
+					"response": [
+						{
+							"name": "transactions UNAUTHORIZED",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MSwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiJhYmYxZDI5Ny1lYjg1LTQyZTUtOGI2Ny1kNzQ4MjRjZGRjZjQiLCJpYXQiOjE2ODczMzkwMTAsImV4cCI6MTY4NzM0MjYxMH0.F4AYxfwjY9JnsOuf-RuyjVaiDQixovPYrAbi4_wP3Xg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/transactions?awal=2023-06-19 22:22:24&akhir=2023-06-19 22:22:24",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "awal",
+											"value": "2023-06-19 22:22:24"
+										},
+										{
+											"key": "akhir",
+											"value": "2023-06-19 22:22:24"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-gPcElaUI2vQjfP9AnVpG9kx0KzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:12:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid JWT token\"\n}"
+						},
+						{
+							"name": "transactions SUCCESS",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6MCwic3Vic19zdGF0dXMiOm51bGwsImFwaV9rZXkiOiI1NzY4NjlmYi02MTBlLTRiYmMtYmJiNi1lOTAzODEwZGY1ZWYiLCJpYXQiOjE2ODc0MDEyMzYsImV4cCI6MTY4NzQwNDgzNn0.8f0PPIFVYV7eHSdyrKu-pEQMhb4SnsCMbcW6MnbXVAQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{HOST}}/transactions?awal=2023-06-19 22:22:24&akhir=2023-06-19 22:22:24",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "awal",
+											"value": "2023-06-19 22:22:24"
+										},
+										{
+											"key": "akhir",
+											"value": "2023-06-19 22:22:24"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "155"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9b-G5ExA+14yRsRj5s1aySAAI83+Pg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 03:12:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"results\": [\n        {\n            \"id\": 1,\n            \"user_id\": 3,\n            \"order_id\": \"ASDF\",\n            \"paid_amount\": 333333,\n            \"status\": null,\n            \"createdAt\": \"0000-00-00 00:00:00\",\n            \"updatedAt\": \"0000-00-00 00:00:00\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Transaction merupakan semua kumpulan endpont yang berhubungan dengan transaksi atau pembayaran pada rest api Words"
+		}
+	]
+}
